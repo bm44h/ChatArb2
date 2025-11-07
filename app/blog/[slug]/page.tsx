@@ -3,25 +3,15 @@ import { getPostBySlug, getAllPosts } from '@/app/lib/blog'; // سننشئ هذ�
 import { notFound } from 'next/navigation';
 import markdownToHtml from '@/app/lib/markdownToHtml'; // وهذا أيضًا
 
-// هذه الدالة تخبر Next.js ما هي المسارات المتاحة (slugs )
-export async function generateStaticParams() {
-  const posts = getAllPosts(['slug']);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
+type Props = {
+  params: { slug: string };
+};
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
-  const post = getPostBySlug(params.slug, [
-    'title',
-    'date',
-    'content',
-    'imageUrl',
-  ]);
+export default async function PostPage({ params }: Props) {
+  // إذا كانت الدوال getPostBySlug أو getAllPosts غير async
+  const post = getPostBySlug(params.slug, ['title','date','content','imageUrl']);
 
-  if (!post) {
-    return notFound();
-  }
+  if (!post) return notFound();
 
   const content = await markdownToHtml(post.content || '');
 
@@ -35,9 +25,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
             </h1>
             <p className="text-sm text-gray-500">{post.date}</p>
           </header>
-          
+
           {post.imageUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
             <img 
               src={post.imageUrl} 
               alt={post.title} 
@@ -45,7 +34,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
             />
           )}
 
-          {/* هذا الجزء سيعرض محتوى المقال كـ HTML */}
           <div
             className="prose prose-lg max-w-none"
             dangerouslySetInnerHTML={{ __html: content }}
