@@ -41,3 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 /app/api/crawl/
+
+# منع رفع المكتبات الثقيلة
+/node_modules/onnxruntime-node/
+/node_modules/playwright/
+/node_modules/@huggingface/
