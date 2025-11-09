@@ -1,6 +1,6 @@
 # 1. ابدأ من صورة Playwright الرسمية التي تحتوي على Node.js
 # هذا يضمن تثبيت المتصفحات واعتمادياتها بشكل مسبق
-FROM mcr.microsoft.com/playwright/javascript:v1.44.1-jammy
+FROM mcr.microsoft.com/playwright/javascript:v1.44.1-focal
 
 # 2. حدد مجلد العمل داخل "الصندوق" (الحاوية)
 WORKDIR /app
